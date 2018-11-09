@@ -13,7 +13,7 @@ namespace Task2
         {
             using (var reader = new StreamReader(Path.Combine(Environment.CurrentDirectory, @"example.txt")))
             {
-                var condordance = new Condordance(new Text(reader.ReadToEnd()));
+                var condordance = new Concordance(new Text(reader.ReadToEnd()));
                 condordance.FillConcordance(new WordSplitter());
                 condordance.Print(new ConsolePrinter<string, IList<int>>());
             }

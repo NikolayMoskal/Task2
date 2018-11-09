@@ -6,12 +6,12 @@ using Task2.TextDocument.Models;
 
 namespace Task2
 {
-    public class Condordance : IPrintable<string, IList<int>>
+    public class Concordance : IPrintable<string, IList<int>>
     {
         private readonly Text _text;
-        public IDictionary<string, IList<int>> Dictionary { get; }
+        private IDictionary<string, IList<int>> Dictionary { get; }
         
-        public Condordance(Text text)
+        public Concordance(Text text)
         {
             _text = text;
             Dictionary = new Dictionary<string, IList<int>>();
@@ -22,14 +22,13 @@ namespace Task2
             return splitter.Split(_text);
         }
 
-        private IList<int> CollectFrequency(IList<Text> list)
+        private IList<int> CollectFrequency(IList<Text> list, Text item)
         {
-            var frequencies = new List<int>(0);
-            list
-                .ToList()
-                .ForEach(item => frequencies.Add(list
-                    .Count(x => x.Source.Equals(item.Source))));
-            return frequencies;
+            return new List<int>(0)
+            {
+                list
+                    .Count(x => x.Source.Equals(item.Source))
+            };
         }
 
         public void FillConcordance(ISplitter splitter)
@@ -37,7 +36,7 @@ namespace Task2
             var list = CollectWords(splitter);
             list
                 .ToList()
-                .ForEach(item => Dictionary.Add(item.Source, CollectFrequency(list)));
+                .ForEach(item => Dictionary.Add(item.Source, CollectFrequency(list, item)));
         }
 
         public void Print(IPrinter<string, IList<int>> printer)

@@ -38,7 +38,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Condordance.cs" />
+    <Compile Include="Concordance.cs" />
     <Compile Include="Printer\ConsolePrinter.cs" />
     <Compile Include="Printer\IPrintable.cs" />
     <Compile Include="Printer\IPrinter.cs" />
