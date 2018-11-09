@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -10,12 +11,16 @@ namespace Task2.Splitter.Models
     {
         public IList<Text> Split(Text source)
         {
-            IList<Text> results = new List<Text>(0);
+            var results = new List<Text>(0);
+            var tempList = new List<string>(0);
             new Regex(@"[\.\?! ,]")
                 .Split(source.Source)
                 .Where(x => !string.IsNullOrEmpty(x))
                 .ToList()
-                .ForEach(x => results.Add(new Word(x.ToLower())));
+                .ForEach(x => tempList.Add(x.ToLower()));
+            tempList.Sort();
+            tempList
+                .ForEach(x => results.Add(new Word(x)));
             return results;
         }
     }

@@ -11,7 +11,7 @@ namespace Task2.Printer
         {
             foreach (var t in source)
             {
-                Console.WriteLine("{0}\t\t\t\t\t{1}: {2}", t.Key, t.Value.Count, string.Join(",", t.Value));
+                Console.WriteLine("{0}\t\t\t{1}", t.Key, string.Join(",", t.Value));
             }
         }
     }

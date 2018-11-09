@@ -13,9 +13,9 @@ namespace Task2
         {
             using (var reader = new StreamReader(Path.Combine(Environment.CurrentDirectory, @"example.txt")))
             {
-                var condordance = new Concordance(new Text(reader.ReadToEnd()));
-                condordance.FillConcordance(new WordSplitter());
-                condordance.Print(new ConsolePrinter<string, IList<int>>());
+                var concordance = new Concordance(new Text(reader.ReadToEnd()));
+                concordance.FillConcordance(new WordSplitter());
+                concordance.Print(new ConsolePrinter<string, IList<int>>());
             }
         }
     }

@@ -1,5 +1,8 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Task2.Printer;
 using Task2.Splitter.Interfaces;
 using Task2.TextDocument.Models;
@@ -10,7 +13,7 @@ namespace Task2
     {
         private readonly Text _text;
         private IDictionary<string, IList<int>> Dictionary { get; }
-        
+
         public Concordance(Text text)
         {
             _text = text;
@@ -31,10 +34,28 @@ namespace Task2
             };
         }
 
+        private static IList<Text> Filter(IList<Text> source)
+        {
+            var result = new List<Text>(0);
+            var example = string.Empty;
+            foreach (var item in source)
+            {
+                if (!item.Source.Equals(example))
+                {
+                    result.Add(item);
+                }
+
+                example = item.Source;
+            }
+
+            return result;
+        }
+
         public void FillConcordance(ISplitter splitter)
         {
             var list = CollectWords(splitter);
-            list
+            var filteredList = Filter(list);
+            filteredList
                 .ToList()
                 .ForEach(item => Dictionary.Add(item.Source, CollectFrequency(list, item)));
         }
