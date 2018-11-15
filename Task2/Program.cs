@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
+using System.Text;
+using Task2.Builder;
 using Task2.Printer;
-using Task2.Splitter.Models;
+using Task2.Reader;
 using Task2.TextDocument.Models;
 
 namespace Task2
@@ -11,11 +13,25 @@ namespace Task2
     {
         public static void Main(string[] args)
         {
-            using (var reader = new StreamReader(Path.Combine(Environment.CurrentDirectory, @"example.txt")))
+            var fileName = ConfigurationManager.AppSettings["sourceFile"];
+            using (var reader = new StreamReader(fileName))
             {
-                var concordance = new Concordance(new Text(reader.ReadToEnd()));
-                concordance.FillConcordance(new WordSplitter());
-                concordance.Print(new ConsolePrinter<string, IList<int>>());
+                var fileReader = new CustomReader(blockSize: 10);
+                var builder = new SentenceBuilder();
+                var sentences = new List<Sentence>(0);
+                var pageBuilder = new PageBuilder(pageSize: 5);
+                while (fileReader.Read(reader) != 0)
+                {
+                    while (builder.HasSentence(CustomReader.Accumulator))
+                    {
+                        sentences.Add(builder.Build());
+                    }
+                }
+                var text = new Text(sentences);
+                var concordance = new Concordance();
+                concordance.Fill(text, pageBuilder.Build(text));
+                IPrinter printer = new ConsolePrinter();
+                printer.Print(concordance);
             }
         }
     }

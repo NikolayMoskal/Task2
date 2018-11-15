@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace Task2.Printer
 {
-    public interface IPrinter<TKey, TValue> where TValue : IList<int>
+    public interface IPrinter
     {
-        void Print(IDictionary<TKey, TValue> collection);
+        void Print(Concordance concordance);
     }
 }

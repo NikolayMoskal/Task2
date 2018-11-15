@@ -1,19 +1,16 @@
 using System.Collections.Generic;
-using Task2.TextDocument.Enums;
+using Task2.TextDocument.Interfaces;
 
 namespace Task2.TextDocument.Models
 {
-    public class Sentence : Text
+    public class Sentence
     {
-        public IList<Word> Words { get; }
+        private readonly List<ISentenceItem> _sentenceItems;
+        public List<ISentenceItem> SentenceItems => new List<ISentenceItem>(_sentenceItems);
 
-        public Sentence(string source) : base(source)
+        public Sentence(List<ISentenceItem> sentenceItems)
         {
-        }
-
-        public Sentence(string source, IList<Word> words) : this(source)
-        {
-            Words = words ?? new List<Word>(0);
+            _sentenceItems = sentenceItems ?? new List<ISentenceItem>(0);
         }
     }
 }

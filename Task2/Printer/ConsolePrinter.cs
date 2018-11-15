@@ -5,13 +5,13 @@ using Task2.TextDocument.Models;
 
 namespace Task2.Printer
 {
-    public class ConsolePrinter<TKey, TValue> : IPrinter<TKey, TValue> where TValue : IList<int>
+    public class ConsolePrinter : IPrinter
     {
-        public void Print(IDictionary<TKey, TValue> source)
+        public void Print(Concordance concordance)
         {
-            foreach (var t in source)
+            foreach (var t in concordance.Entries)
             {
-                Console.WriteLine("{0}\t\t\t{1}", t.Key, string.Join(",", t.Value));
+                Console.WriteLine("{0}\t\t\t{1}: {2}", t.Word.Value, t.Frequency, string.Join(",", t.Lines));
             }
         }
     }

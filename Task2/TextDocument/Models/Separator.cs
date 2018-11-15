@@ -1,12 +1,13 @@
+using System;
 using Task2.TextDocument.Interfaces;
 
 namespace Task2.TextDocument.Models
 {
-    public class Word : ISentenceItem
+    public class Separator : ISentenceItem
     {
         public string Value { get; }
-        
-        public Word(string value)
+
+        public Separator(string value)
         {
             Value = value;
         }
