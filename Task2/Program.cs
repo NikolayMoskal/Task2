@@ -13,8 +13,9 @@ namespace Task2
     {
         public static void Main(string[] args)
         {
-            var fileName = ConfigurationManager.AppSettings["sourceFile"];
-            using (var reader = new StreamReader(fileName))
+            var sourceFile = ConfigurationManager.AppSettings["sourceFile"];
+            var destinationFile = ConfigurationManager.AppSettings["destinationFile"];
+            using (var reader = new StreamReader(sourceFile))
             {
                 var fileReader = new CustomReader(blockSize: 10);
                 var builder = new SentenceBuilder();
@@ -30,7 +31,7 @@ namespace Task2
                 var text = new Text(sentences);
                 var concordance = new Concordance();
                 concordance.Fill(text, pageBuilder.Build(text));
-                IPrinter printer = new ConsolePrinter();
+                IPrinter printer = new FilePrinter(destinationFile);
                 printer.Print(concordance);
             }
         }

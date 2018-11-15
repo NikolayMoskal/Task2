@@ -43,6 +43,7 @@
     <Compile Include="Builder\SentenceBuilder.cs" />
     <Compile Include="Concordance.cs" />
     <Compile Include="Printer\ConsolePrinter.cs" />
+    <Compile Include="Printer\FilePrinter.cs" />
     <Compile Include="Printer\IPrinter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
