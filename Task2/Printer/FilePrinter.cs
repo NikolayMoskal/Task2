@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Security;
+using NLog;
 using Task2.Glossary;
 
 namespace Task2.Printer
@@ -8,6 +9,7 @@ namespace Task2.Printer
     public class FilePrinter : IPrinter
     {
         private readonly string _fileName;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         
         public FilePrinter(string fileName)
         {
@@ -28,27 +30,27 @@ namespace Task2.Printer
             }
             catch (UnauthorizedAccessException e)
             {
-                Console.WriteLine($"Access is denied: {e.Message}");
+                Logger.Error($"Access is denied: {e.Message}");
             }
             catch (ArgumentException e)
             {
-                Console.WriteLine($"Incorrect names in path: {e.Message}");
+                Logger.Error($"Incorrect names in path: {e.Message}");
             }
             catch (DirectoryNotFoundException e)
             {
-                Console.WriteLine($"Directory not found: {e.Message}");
+                Logger.Error($"Directory not found: {e.Message}");
             }
             catch (PathTooLongException e)
             {
-                Console.WriteLine($"Path or file name is too long: {e.Message}");
+                Logger.Error($"Path or file name is too long: {e.Message}");
             }
             catch (IOException e)
             {
-                Console.WriteLine($"Incorrect path: {e.Message}");
+                Logger.Error($"Incorrect path: {e.Message}");
             }
             catch (SecurityException e)
             {
-                Console.WriteLine($"Something error in security: {e.Message}");
+                Logger.Error($"Something error in security: {e.Message}");
             }
         }
     }

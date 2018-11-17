@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Text;
+using NLog;
 using Task2.Builder;
 using Task2.Glossary;
 using Task2.Printer;
@@ -13,6 +14,8 @@ namespace Task2
 {
     public static class Program
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        
         public static void Main(string[] args)
         {
             var sourceFile = ConfigurationManager.AppSettings["sourceFile"];
@@ -44,7 +47,11 @@ namespace Task2
             }
             catch (FileNotFoundException e)
             {
-                Console.WriteLine($"File {e.FileName} is not found: {e.Message}");
+                Logger.Error($"File {e.FileName} is not found: {e.Message}");
+            }
+            catch (ArgumentException e)
+            {
+                Logger.Error($"Wrong argument: {e.Message}");
             }
         }
     }

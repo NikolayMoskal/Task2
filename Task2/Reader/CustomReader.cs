@@ -2,11 +2,13 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using NLog;
 
 namespace Task2.Reader
 {
     public class CustomReader
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly StringBuilder _buffer;
         private readonly int _blockSize;
         public string Accumulator => _buffer.ToString();
@@ -15,7 +17,7 @@ namespace Task2.Reader
         {
             if (blockSize < 0)
             {
-                throw new ArgumentException("Incorrect buffer size. Expected at least 1.");
+                throw new ArgumentException($"Incorrect buffer size: {blockSize}. Expected at least 1.");
             }
             _buffer = new StringBuilder(0);
             _blockSize = blockSize;
@@ -32,15 +34,15 @@ namespace Task2.Reader
             }
             catch (NullReferenceException e)
             {
-                Console.WriteLine($"The reader is not present: {e.Message}");
+                Logger.Error($"The reader is not present: {e.Message}");
             }
             catch (ObjectDisposedException e)
             {
-                Console.WriteLine($"The {e.ObjectName} reader is already closed: {e.Message}");
+                Logger.Error($"The {e.ObjectName} reader is already closed: {e.Message}");
             }
             catch (IOException e)
             {
-                Console.WriteLine(e.Message);
+                Logger.Error($"Error while reading file: {e.Message}");
             }
 
             return count;
