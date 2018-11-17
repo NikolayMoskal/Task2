@@ -16,7 +16,11 @@ namespace Task2.TextDocument.Models
 
         public bool AddLine(Line line)
         {
-            if (_lines.Count >= _pageSize) return false;
+            if (_lines.Count >= _pageSize)
+            {
+                return false;
+            }
+
             _lines.Add(line);
             return true;
         }

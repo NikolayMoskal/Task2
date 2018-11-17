@@ -41,14 +41,13 @@
   <ItemGroup>
     <Compile Include="Builder\PageBuilder.cs" />
     <Compile Include="Builder\SentenceBuilder.cs" />
-    <Compile Include="Concordance.cs" />
-    <Compile Include="Printer\ConsolePrinter.cs" />
+      <Compile Include="Glossary\Concordance.cs"/>
+      <Compile Include="Glossary\Entry.cs"/>
     <Compile Include="Printer\FilePrinter.cs" />
     <Compile Include="Printer\IPrinter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reader\CustomReader.cs" />
-    <Compile Include="TextDocument\Interfaces\IPunctuationMark.cs" />
     <Compile Include="TextDocument\Interfaces\ISentenceItem.cs" />
     <Compile Include="TextDocument\Models\Line.cs" />
     <Compile Include="TextDocument\Models\Page.cs" />

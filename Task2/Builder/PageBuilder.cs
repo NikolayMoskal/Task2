@@ -24,7 +24,11 @@ namespace Task2.Builder
                 .ForEach(x => x.SentenceItems
                     .ForEach(delegate (ISentenceItem item)
                     {
-                        if (!line.AddItem(item)) return;
+                        if (!line.AddItem(item))
+                        {
+                            return;
+                        }
+
                         if (!page.AddLine(line))
                         {
                             pages.Add(page);

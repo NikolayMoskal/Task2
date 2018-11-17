@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Text;
 using Task2.Builder;
+using Task2.Glossary;
 using Task2.Printer;
 using Task2.Reader;
 using Task2.TextDocument.Models;
@@ -15,24 +17,34 @@ namespace Task2
         {
             var sourceFile = ConfigurationManager.AppSettings["sourceFile"];
             var destinationFile = ConfigurationManager.AppSettings["destinationFile"];
-            using (var reader = new StreamReader(sourceFile))
+
+            try
             {
-                var fileReader = new CustomReader(blockSize: 10);
-                var builder = new SentenceBuilder();
-                var sentences = new List<Sentence>(0);
-                var pageBuilder = new PageBuilder(pageSize: 5);
-                while (fileReader.Read(reader) != 0)
+                using (var reader = new StreamReader(sourceFile))
                 {
-                    while (builder.HasSentence(CustomReader.Accumulator))
+                    var fileReader = new CustomReader(10);
+                    var builder = new SentenceBuilder();
+                    var sentences = new List<Sentence>(0);
+                    var pageBuilder = new PageBuilder(5);
+                    while (fileReader.Read(reader) != 0)
                     {
-                        sentences.Add(builder.Build());
+                        while (builder.ExtractSentence(fileReader))
+                        {
+                            sentences.Add(builder.Build());
+                        }
                     }
+
+                    var text = new Text(sentences);
+                    var concordance = new Concordance();
+                    concordance.Fill(text, pageBuilder.Build(text));
+
+                    IPrinter printer = new FilePrinter(destinationFile);
+                    printer.Print(concordance);
                 }
-                var text = new Text(sentences);
-                var concordance = new Concordance();
-                concordance.Fill(text, pageBuilder.Build(text));
-                IPrinter printer = new FilePrinter(destinationFile);
-                printer.Print(concordance);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine($"File {e.FileName} is not found: {e.Message}");
             }
         }
     }
