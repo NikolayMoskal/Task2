@@ -22,7 +22,7 @@ namespace Task2.Printer
                 {
                     foreach (var t in concordance.Entries)
                     {
-                        writer.WriteLine($"{t.Word.Value, -10}{t.Frequency}: {string.Join(",", t.Lines)}");
+                        writer.WriteLine($"{t.Word.Value, -20}{t.Frequency}: {string.Join(",", t.Lines)}");
                     }
                 }
             }
